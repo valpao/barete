@@ -88,7 +88,7 @@ export class OrderPageComponent {
   ];
 
   filter = signal('');
-
+  sessionId = signal(''); // mi serve per modificare l'ordine e mantenere lo stesso id
   // qty impostata nella lista menu per singolo piatto
   selectedQty = signal<Record<string, number>>({});
 
@@ -196,7 +196,7 @@ getCategories(): string[] {
 
   confirmOrder() {
     this.confirming.set(true);
-    this.orders.confirm(this.cartItems()).subscribe({
+    this.orders.confirm(this.cartItems(), this.sessionId()).subscribe({
       next: (order) => {
         this.confirming.set(false);
         this.confirmedOrder.set(order);
@@ -212,10 +212,13 @@ getCategories(): string[] {
 
   resetAfterPrint() {
     this.showReceiptDialog.set(false);
+    this.sessionId.set('');
     this.clearCart();
   }
 
   modificaOrdine(){
+    let ordineConfermato = this.confirmedOrder();
+    this.sessionId.set(ordineConfermato?.id ? ordineConfermato.id : '');
     this.showReceiptDialog.set(false);
   }
 

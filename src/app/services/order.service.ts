@@ -17,21 +17,21 @@ export class OrderService {
     };
   }
 
-  confirm(items: CartItem[]): Observable<Order> {
+  confirm(items: CartItem[], sessionId: string): Observable<Order> {
     if (!items?.length) {
       return throwError(() => new Error('Carrello vuoto'));
     }
 
     const totals = this.computeTotals(items);
     const order: Order = {
-      id: this.makeId(),
+      id: sessionId || this.makeId(),
       createdAt: new Date(),
       items: items.map(x => ({ ...x })),
       totalEur: totals.totalEur,
       totalWasho: totals.totalWasho,
       status: 'CONFIRMED'
     };
-
+    console.log(order)
     // Simula chiamata backend OK
     return of(order).pipe(delay(700));
   }
