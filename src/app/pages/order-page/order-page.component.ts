@@ -108,6 +108,7 @@ export class OrderPageComponent {
 
   confirming = signal(false);
   showReceiptDialog = signal(false);
+  private categoryOrder: string[] = ['Antipasti', 'Primo', 'Secondo', 'Altro', 'Dolce', 'Bevande'];
 
   constructor(
     public cart: CartService,
@@ -134,6 +135,32 @@ export class OrderPageComponent {
       (d.category ?? '').toLowerCase().includes(q)
     );
   });
+
+  getDishesGroupedByCategory(): { [category: string]: Dish[] } {
+  const dishes = this.filteredDishes(); // usa la tua funzione di filtro
+
+  // Raggruppa i piatti per categoria
+  const grouped: { [category: string]: Dish[] } = {};
+  dishes.forEach(d => {
+    const cat = d.category ?? 'Altro';
+    if (!grouped[cat]) grouped[cat] = [];
+    grouped[cat].push(d);
+  });
+
+  // Ordina i piatti all'interno di ogni categoria per nome
+  Object.keys(grouped).forEach(cat => {
+    grouped[cat].sort((a, b) => a.name.localeCompare(b.name));
+  });
+
+  return grouped;
+}
+
+// Restituisce le categorie nell'ordine fisso definito
+getCategories(): string[] {
+  const grouped = this.getDishesGroupedByCategory();
+  // Include solo le categorie che esistono nei dati
+  return this.categoryOrder.filter(cat => grouped[cat]);
+}
 
   totals = computed(() => this.orders.computeTotals(this.cartItems()));
 

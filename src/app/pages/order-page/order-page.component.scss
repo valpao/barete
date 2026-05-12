@@ -2,111 +2,138 @@
   display: block;
 }
 
-.app-toolbar {
-  border-radius: 0;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.title {
-  font-weight: 800;
-  font-size: 1.1rem;
-  margin-left: 0.6rem;
-}
-
+/* SPLITTER */
 .main-splitter {
-  border: 0;
+  height: 100vh; /* occuperà tutta l'altezza dello schermo */
 }
 
+/* GENERALE */
 .pane {
   padding: 1rem;
   height: 100%;
   background: var(--surface-50);
+  box-sizing: border-box;
 }
 
 .pane-card {
- height: 100%;
- display: flex;
- flex-direction: column;
-
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
+/* CARD TITLE */
 .card-title {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-
-  .subtitle {
-    font-size: 0.9rem;
-    color: var(--text-color-secondary);
-    font-weight: 400;
-  }
 }
 
+.card-title .subtitle {
+  font-size: 0.9rem;
+  color: var(--text-color-secondary);
+  font-weight: 400;
+}
+
+/* CONTROLLI FILTRO */
 .controls {
   margin-bottom: 1rem;
 }
 
+/* PIATTI: CARD */
 .dish-card {
-  border-radius: 18px;
+  width: 100%;
   height: 100%;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
 }
 
+/* HEADER PIATTO */
 .dish-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   gap: 0.5rem;
-
-  .dish-name {
-    font-weight: 800;
-    font-size: 1.05rem;
-  }
 }
 
+.dish-name {
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+
+/* BODY PIATTO */
 .dish-body {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  gap: 0.5rem;
 }
 
+/* PREZZI */
 .price-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .price {
   background: var(--surface-100);
   padding: 0.75rem;
   border-radius: 14px;
-
-  .label {
-    font-size: 0.75rem;
-    color: var(--text-color-secondary);
-    display: block;
-    margin-bottom: 0.2rem;
-  }
-
-  .value {
-    font-weight: 800;
-    font-size: 1rem;
-  }
+  flex: 1 1 45%;
+  box-sizing: border-box;
 }
 
+.price .label {
+  font-size: 0.75rem;
+  color: var(--text-color-secondary);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.price .value {
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+/* RIGA AGGIUNGI AL CARRELLO */
 .add-row {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .qty-input {
-  flex: 1;
-  max-width: 170px;
+  min-width: 5rem; /* evita restringimento input */
+  flex: 1 1 auto;
 }
 
+/* DATA VIEW GRID */
+.col-12, .md\:col-6, .lg\:col-4 {
+  display: flex;
+  flex-direction: column;
+  min-width: 250px; /* evita colonne troppo strette */
+  flex: 1 1 calc(33.333% - 1rem);
+  box-sizing: border-box;
+  margin-bottom: 1rem; /* spazio tra le righe */
+}
+
+/* HEADER CATEGORIA */
+.category-header {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 4px;
+  color: orange;
+}
+
+/* CARRELLO */
 .cart-dish {
   display: flex;
   flex-direction: column;
@@ -161,18 +188,19 @@
   gap: 0.75rem;
   margin-top: 1rem;
   color: var(--text-color-secondary);
-
-  .spinner {
-    width: 24px;
-    height: 24px;
-  }
 }
 
-.dialog-actions {
+.loading .spinner {
+  width: 24px;
+  height: 24px;
+}
+
+/* SPLITTER PANEL CARD CONTENT */
+.p-splitter-panel {
   display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
-  margin-top: 1rem;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
 }
 
 .print-head {
@@ -181,13 +209,17 @@
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 0.75rem;
-
-  h2 {
-    margin: 0;
-  }
 }
+
 
 .print-totals {
   text-align: right;
   font-size: 1.1rem;
+}
+
+.toolbar-icon {
+  width: 4.5rem;   /* dimensione simile a text-xl */
+  height: 3rem;
+  margin-right: 0.5rem;
+  vertical-align: middle;
 }

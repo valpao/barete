@@ -2,8 +2,8 @@
 
 <p-toolbar styleClass="app-toolbar">
   <div class="p-toolbar-group-start">
-    <i class="pi pi-shopping-bag text-xl"></i>
-    <span class="title">Gestione Ordini</span>
+    <img src="assets/logo.png" alt="Shopping Bag" class="toolbar-icon" />
+    <span class="title">Gestione Ordini WashoClient</span>
     <p-tag severity="info" value="EUR + WASHO" styleClass="ml-2"></p-tag>
   </div>
 
@@ -12,15 +12,17 @@
   </div>
 </p-toolbar>
 
+
 <p-splitter [layout]="splitLayout()" styleClass="main-splitter">
-  <!-- LEFT: MENU -->
-  <ng-template pTemplate>
-    <div class="pane">
+
+  <!-- LEFT PANEL: MENU (70%) -->
+  <ng-template pTemplate="panel" let-size="size">
+    <div class="pane" style="width: 100%; height: 100%;">
       <p-card styleClass="pane-card">
         <ng-template pTemplate="title">
           <div class="card-title">
-            <span>Menu piatti</span>
-            <span class="subtitle">Seleziona i piatti richiesti dal cliente</span>
+            <span>Menu WASHO</span>
+            <span class="subtitle">Seleziona le richieste del cliente</span>
           </div>
         </ng-template>
 
@@ -31,12 +33,14 @@
                    [ngModel]="filter()" (ngModelChange)="filter.set($event)" />
           </p-iconField>
         </div>
- 
-          <p-dataView [value]="filteredDishes()" layout="list" [paginator]="false">
-            <ng-template pTemplate="list" let-items>
+
+        <p-dataView [value]="getCategories()" layout="list" [paginator]="false">
+          <ng-template pTemplate="list" let-categories>
+            <ng-container *ngFor="let category of categories">
+              <h3 class="category-header">{{ category }}</h3>
               <div class="grid">
-                <div class="col-12 md:col-6 lg:col-4" *ngFor="let d of items">
-                  <p-card styleClass="dish-card">
+                <div class="col-12 md:col-6 lg:col-4" *ngFor="let d of getDishesGroupedByCategory()[category]">
+                  <p-card styleClass="dish-card w-100">
                     <ng-template pTemplate="title">
                       <div class="dish-header">
                         <span class="dish-name">{{ d.name }}</span>
@@ -78,21 +82,21 @@
                   </p-card>
                 </div>
               </div>
-            </ng-template>
-          </p-dataView>
-      
+            </ng-container>
+          </ng-template>
+        </p-dataView>
       </p-card>
     </div>
   </ng-template>
 
-  <!-- RIGHT: CART -->
-  <ng-template pTemplate>
-    <div class="pane">
+  <!-- RIGHT PANEL: CARRELLO (30%) -->
+  <ng-template pTemplate="panel" let-size="size">
+    <div class="pane" style="width: 100%; height: 100%;">
       <p-card styleClass="pane-card">
         <ng-template pTemplate="title">
           <div class="card-title">
             <span>Carrello</span>
-            <span class="subtitle">Riepilogo piatti selezionati (raggruppati)</span>
+            <span class="subtitle">Riepilogo ordine</span>
           </div>
         </ng-template>
 
@@ -196,7 +200,9 @@
       </p-card>
     </div>
   </ng-template>
+
 </p-splitter>
+
 
 <!-- DIALOG RICEVUTA + STAMPA -->
 
@@ -219,11 +225,11 @@
       <div class="print-head">
         <div>
           <div class="muted">ID: <strong>{{ ord.id }}</strong></div>
-          <div class="muted">Data: {{ ord.createdAt | date:'dd/MM/yyyy HH:mm' }}</div>
+          <div class="muted mt-1">Data: {{ ord.createdAt | date:'dd/MM/yyyy HH:mm' }}</div>
         </div>
         <div class="print-totals">
           <div><strong>{{ ord.totalEur | number:'1.2-2' }} €</strong></div>
-          <div class="muted">{{ ord.totalWasho | number:'1.2-2' }} W</div>
+          <div class="muted mt-1">{{ ord.totalWasho | number:'1.2-2' }} W</div>
         </div>
       </div>
 
@@ -254,13 +260,13 @@
         </ng-template>
       </p-table>
 
-      <div class="print-footer">
-        <div class="muted">Grazie! — Ordine gestito con Ordini Clienti</div>
+      <div class="print-footer mt-3">
+        <div class="muted">Grazie! — Ordine gestito con WashoClient_v1</div>
       </div>
     </div>
 
     <!-- BOTTONI (rimangono identici: funzioni invariate) -->
-    <div class="dialog-actions flex justify-content-between align-items-center">
+    <div class="dialog-actions mt-3 flex justify-content-between align-items-center">
       <div>
         <button pButton type="button" icon="pi pi-pencil" label="Modifica ordine"
                 class="p-button-outlined"
@@ -324,7 +330,7 @@
   </table>
 
   <div class="print-footer">
-    Grazie! — Ordine gestito con Ordini Clienti
+    Grazie! — Ordine gestito con WashoClient_v1
   </div>
 </div>
 

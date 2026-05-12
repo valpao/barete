@@ -37,8 +37,19 @@ export class OrderService {
   }
 
   private makeId(): string {
-    const ts = Date.now().toString(36).toUpperCase();
-    const rnd = Math.random().toString(36).slice(2, 7).toUpperCase();
-    return `ORD-${ts}-${rnd}`;
-  }
+  // timestamp in base36 (compatto e ordinabile)
+  const ts = Date.now().toString(36).toUpperCase();
+
+  // random forte (crypto, NON Math.random)
+  const array = new Uint8Array(6); // 6 byte = 48 bit
+  crypto.getRandomValues(array);
+
+  const rnd = Array.from(array)
+    .map(b => b.toString(36).padStart(2, '0'))
+    .join('')
+    .toUpperCase();
+
+  return `ORD-${ts}-${rnd}`;
+}
+
 }
