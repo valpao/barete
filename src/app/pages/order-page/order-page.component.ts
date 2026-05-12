@@ -78,7 +78,7 @@ export class OrderPageComponent {
     { id: 'd13', name: 'Olive ascolana', priceEur: 6.00, category: 'Altro' },
     { id: 'd14', name: 'Arrosticini x10', priceEur: 13.00, category: 'Altro' },
 
-    { id: 'd4', name: 'Cheesecake', priceEur: 5.00, category: 'Dolce' },
+    { id: 'd20', name: 'Cheesecake', priceEur: 5.00, category: 'Dolce' },
 
     { id: 'd15', name: 'Acqua', priceEur: 2.00, category: 'Bevande' },
     { id: 'd16', name: 'Vino 1/2', priceEur: 5.00, category: 'Bevande' },
