@@ -12,7 +12,7 @@
   </div>
 </p-toolbar>
 
-<p-splitter [layout]="splitLayout()" [style]="{height:'calc(100vh - 72px)'}" styleClass="main-splitter">
+<p-splitter [layout]="splitLayout()" styleClass="main-splitter">
   <!-- LEFT: MENU -->
   <ng-template pTemplate>
     <div class="pane">
@@ -31,55 +31,56 @@
                    [ngModel]="filter()" (ngModelChange)="filter.set($event)" />
           </p-iconField>
         </div>
-
-        <p-dataView [value]="filteredDishes()" layout="grid" [paginator]="false">
-          <ng-template pTemplate="grid" let-items>
-            <div class="grid">
-              <div class="col-12 md:col-6 lg:col-4" *ngFor="let d of items">
-                <p-card styleClass="dish-card">
-                  <ng-template pTemplate="title">
-                    <div class="dish-header">
-                      <span class="dish-name">{{ d.name }}</span>
-                      <p-tag [value]="d.category ?? 'Altro'" severity="secondary"></p-tag>
-                    </div>
-                  </ng-template>
-
-                  <div class="dish-body">
-                    <div class="price-row">
-                      <div class="price">
-                        <span class="label">EUR</span>
-                        <span class="value">{{ d.priceEur | number:'1.2-2' }} €</span>
+ 
+          <p-dataView [value]="filteredDishes()" layout="list" [paginator]="false">
+            <ng-template pTemplate="list" let-items>
+              <div class="grid">
+                <div class="col-12 md:col-6 lg:col-4" *ngFor="let d of items">
+                  <p-card styleClass="dish-card">
+                    <ng-template pTemplate="title">
+                      <div class="dish-header">
+                        <span class="dish-name">{{ d.name }}</span>
+                        <p-tag [value]="d.category ?? 'Altro'" severity="secondary"></p-tag>
                       </div>
-                      <div class="price">
-                        <span class="label">WASHO</span>
-                        <span class="value">{{ d.priceEur | washoval }}</span>
+                    </ng-template>
+
+                    <div class="dish-body">
+                      <div class="price-row">
+                        <div class="price">
+                          <span class="label">EUR</span>
+                          <span class="value">{{ d.priceEur | number:'1.2-2' }} €</span>
+                        </div>
+                        <div class="price">
+                          <span class="label">WASHO</span>
+                          <span class="value">{{ d.priceEur | washoval }}</span>
+                        </div>
+                      </div>
+
+                      <div class="add-row">
+                        <p-inputNumber
+                          [ngModel]="qtyFor(d.id)"
+                          (ngModelChange)="setQtyFor(d.id, $event)"
+                          [min]="1"
+                          [showButtons]="true"
+                          buttonLayout="horizontal"
+                          decrementButtonClass="p-button-secondary"
+                          incrementButtonClass="p-button-secondary"
+                          styleClass="qty-input"
+                          inputStyleClass="w-5rem"
+                        ></p-inputNumber>
+
+                        <button pButton type="button" icon="pi pi-plus"
+                                class="p-button-success"
+                                (click)="addToCart(d)">
+                        </button>
                       </div>
                     </div>
-
-                    <div class="add-row">
-                      <p-inputNumber
-                        [ngModel]="qtyFor(d.id)"
-                        (ngModelChange)="setQtyFor(d.id, $event)"
-                        [min]="1"
-                        [showButtons]="true"
-                        buttonLayout="horizontal"
-                        decrementButtonClass="p-button-secondary"
-                        incrementButtonClass="p-button-secondary"
-                        styleClass="qty-input"
-                        inputStyleClass="w-5rem"
-                      ></p-inputNumber>
-
-                      <button pButton type="button" icon="pi pi-plus"
-                              class="p-button-success"
-                              (click)="addToCart(d)">
-                      </button>
-                    </div>
-                  </div>
-                </p-card>
+                  </p-card>
+                </div>
               </div>
-            </div>
-          </ng-template>
-        </p-dataView>
+            </ng-template>
+          </p-dataView>
+      
       </p-card>
     </div>
   </ng-template>
@@ -199,6 +200,7 @@
 
 <!-- DIALOG RICEVUTA + STAMPA -->
 
+
 <p-dialog
   header="Riepilogo ordine"
   [visible]="showReceiptDialog()"
@@ -206,14 +208,14 @@
   [modal]="true"
   [draggable]="false"
   [dismissableMask]="false"
-  [closable] = "false"
-  [style]="{ width: '860px', maxWidth: '95vw' }"
-  [contentStyle]="{ overflow: 'visible' }"
+  [closable]="false"
+  [style]="{ width: '50rem' }"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
 >
-
   <ng-container *ngIf="confirmedOrder() as ord">
-    <!-- AREA STAMPA: visibile solo in print -->
-    <div class="print-area" id="printArea">
+
+    <!-- ✅ PREVIEW nel dialog: NOTA bene, qui NON usare id="printArea" -->
+    <div class="preview-area" id="receiptPreview">
       <div class="print-head">
         <div>
           <div class="muted">ID: <strong>{{ ord.id }}</strong></div>
@@ -225,6 +227,7 @@
         </div>
       </div>
 
+      <!-- Preview può restare con p-table -->
       <p-table [value]="ord.items" styleClass="print-table">
         <ng-template pTemplate="header">
           <tr>
@@ -256,15 +259,73 @@
       </div>
     </div>
 
-    <!-- BOTTONI (non stampati) -->
-    <div class="dialog-actions">
-      <button pButton type="button" icon="pi pi-print" label="Stampa"
-              class="p-button-primary"
-              (click)="printReceipt()"></button>
+    <!-- BOTTONI (rimangono identici: funzioni invariate) -->
+    <div class="dialog-actions flex justify-content-between align-items-center">
+      <div>
+        <button pButton type="button" icon="pi pi-pencil" label="Modifica ordine"
+                class="p-button-outlined"
+                (click)="modificaOrdine()"></button>
+      </div>
 
-      <button pButton type="button" icon="pi pi-refresh" label="Nuovo ordine"
-              class="p-button-outlined"
-              (click)="resetAfterPrint()"></button>
+      <div class="flex gap-2">
+        <button pButton type="button" icon="pi pi-print" label="Stampa"
+                class="p-button-primary"
+                (click)="printReceipt()"></button>
+
+        <button pButton type="button" icon="pi pi-refresh" label="Nuovo ordine"
+                class="p-button-outlined p-button-warning"
+                (click)="resetAfterPrint()"></button>
+      </div>
     </div>
+
   </ng-container>
 </p-dialog>
+
+
+
+<ng-container *ngIf="confirmedOrder() as ord">
+
+<!-- AREA STAMPA REALE -->
+<div id="printArea" class="print-area">
+  <div class="print-head">
+    <div>
+      <div class="muted">ID: <strong>{{ ord.id }}</strong></div>
+      <div class="muted">Data: {{ ord.createdAt | date:'dd/MM/yyyy HH:mm' }}</div>
+    </div>
+    <div class="print-totals">
+      <div><strong>{{ ord.totalEur | number:'1.2-2' }} €</strong></div>
+      <div class="muted">{{ ord.totalWasho | number:'1.2-2' }} W</div>
+    </div>
+  </div>
+
+  <table class="print-html-table">
+    <thead>
+      <tr>
+        <th>Piatto</th>
+        <th class="text-right">Prezzo</th>
+        <th class="text-center">Q.tà</th>
+        <th class="text-right">Subtotale</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of ord.items">
+        <td>{{ row.dish.name }}</td>
+        <td class="text-right">
+          {{ row.dish.priceEur | number:'1.2-2' }} €
+          <small class="muted"> ({{ row.dish.priceEur | washoval }})</small>
+        </td>
+        <td class="text-center">{{ row.qty }}</td>
+        <td class="text-right">
+          {{ (row.dish.priceEur * row.qty) | number:'1.2-2' }} €
+          <small class="muted"> ({{ (row.dish.priceEur * row.qty) | washoval }})</small>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="print-footer">
+    Grazie! — Ordine gestito con Ordini Clienti
+  </div>
+</div>
+
+</ng-container>

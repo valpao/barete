@@ -26,8 +26,10 @@
 }
 
 .pane-card {
-  height: 100%;
-  border-radius: 18px;
+ height: 100%;
+ display: flex;
+ flex-direction: column;
+
 }
 
 .card-title {
@@ -173,11 +175,6 @@
   margin-top: 1rem;
 }
 
-/* STAMPA */
-.print-area {
-  padding: 0.5rem;
-}
-
 .print-head {
   display: flex;
   align-items: flex-start;
@@ -193,20 +190,4 @@
 .print-totals {
   text-align: right;
   font-size: 1.1rem;
-}
-
-.print-footer {
-  margin-top: 1rem;
-  border-top: 1px dashed var(--surface-300);
-  padding-top: 0.75rem;
-}
-
-@media print {
-  body * {
-    visibility: hidden !important;
-  }
-
-  .dialog-actions {
-    display: none !important;
-  }
 }
