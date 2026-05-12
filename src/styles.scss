@@ -1,0 +1,14 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background: var(--surface-50);
+}
+
+/* Migliora l'usabilità su tablet */
+:root {
+  --focus-ring: 0 0 0 .2rem rgba(20, 184, 166, .25);
+}
