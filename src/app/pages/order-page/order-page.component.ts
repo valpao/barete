@@ -25,7 +25,7 @@ import { TagModule } from 'primeng/tag';
 import { DividerModule } from 'primeng/divider';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ProgressBarModule } from 'primeng/progressbar';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -48,7 +48,7 @@ import { MessageService } from 'primeng/api';
     DividerModule,
     DialogModule,
     ToastModule,
-    ProgressSpinnerModule,
+    ProgressBarModule,
     WashoPipe
   ],
   providers: [MessageService],
