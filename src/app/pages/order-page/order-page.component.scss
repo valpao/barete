@@ -1,11 +1,59 @@
 :host {
   display: block;
+  height: 100vh;
 }
 
-/* SPLITTER */
-.main-splitter {
-  height: 100vh; /* occuperà tutta l'altezza dello schermo */
+/* IMPORTANTISSIMO: il splitter deve NON scrollare tutto */
+:host ::ng-deep .p-splitter {
+  height: 100vh;
 }
+
+:host ::ng-deep .p-splitter-panel {
+  height: 100%;
+  overflow: hidden; /* blocchiamo scroll globale */
+  display: flex;
+}
+
+
+.left-pane {
+  height: 100%;
+  overflow-y: auto;   /* 👈 scroll SOLO qui */
+  padding: 1rem;
+}
+
+/* ================================
+   RIGHT PANEL = CARRELLO STICKY NATIVO
+================================== */
+
+.right-pane {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* il carrello NON deve scrollare con la pagina */
+.cart-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* contenuto carrello fisso */
+.cart-card .p-card-body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* footer (totali + bottoni) sempre visibili */
+.cart-card .totals,
+.cart-card .actions {
+  flex-shrink: 0;
+}
+
+
+
+
 
 /* GENERALE */
 .pane {

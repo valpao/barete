@@ -17,7 +17,7 @@
 
   <!-- LEFT PANEL: MENU (70%) -->
   <ng-template pTemplate="panel" let-size="size">
-    <div class="pane" style="width: 100%; height: 100%;">
+    <div class="pane left-pane" style="width: 100%; height: 100%;">
       <p-card styleClass="pane-card">
         <ng-template pTemplate="title">
           <div class="card-title">
@@ -98,7 +98,7 @@
 
   <!-- RIGHT PANEL: CARRELLO (30%) -->
   <ng-template pTemplate="panel" let-size="size">
-    <div class="pane" style="width: 100%; height: 100%;">
+    <div class="pane right-pane" style="width: 100%; height: 100%;">
       <p-card styleClass="pane-card">
         <ng-template pTemplate="title">
           <div class="card-title">
@@ -107,7 +107,9 @@
           </div>
         </ng-template>
 
-        <p-table [value]="cartItems()" [tableStyle]="{ 'min-width': '100%' }">
+        <p-table [value]="cartItems()"
+         [tableStyle]="{ 'min-width': '100%' }"
+           [scrollable]="true" scrollHeight="480px">
           <ng-template pTemplate="header">
             <tr>
               <th>Piatto</th>
