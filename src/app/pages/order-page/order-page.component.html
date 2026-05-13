@@ -109,7 +109,7 @@
 
         <p-table [value]="cartItems()"
          [tableStyle]="{ 'min-width': '100%' }"
-           [scrollable]="true" scrollHeight="480px">
+           >
           <ng-template pTemplate="header">
             <tr>
               <th>Piatto</th>
@@ -306,10 +306,9 @@
 
 
 
-<ng-container *ngIf="confirmedOrder() as ord">
 
 <!-- AREA STAMPA REALE -->
-<div id="printArea" class="print-area">
+<div id="printArea" class="print-area print-hidden" *ngIf="confirmedOrder() as ord">
   <div class="print-head">
     <div>
       <div class="muted">ID: <strong>{{ ord.id }}</strong></div>
@@ -351,4 +350,3 @@
   </div>
 </div>
 
-</ng-container>
