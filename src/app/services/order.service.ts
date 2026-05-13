@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
-import { delay, Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { CartItem } from '../models/cart-item.model';
 import { CurrencyService } from './currency.service';
 import { Order } from '../models/order.model';
+import { HttpClient } from "@angular/common/http";
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class OrderService {
-  constructor(private currency: CurrencyService) {}
+  private readonly apiUrl = 'https://www.valeriopaolelli.it/washo/script/save_order.php';
+
+  constructor(private currency: CurrencyService, private readonly http: HttpClient) {}
 
   computeTotals(items: CartItem[]) {
     const totalEur = (items ?? []).reduce((sum, it) => sum + it.dish.priceEur * it.qty, 0);
@@ -33,7 +37,26 @@ export class OrderService {
     };
     console.log(order)
     // Simula chiamata backend OK
-    return of(order).pipe(delay(700));
+   // return of(order).pipe(delay(700));
+    return this.http.post<any>(this.apiUrl, order).pipe(
+      map(res => {
+        if (!res.success) {
+          throw new Error(res.error || 'Operazione fallita');
+        }
+
+        // restituisci sempre il modello frontend
+        return order;
+      }),
+      catchError(err => {
+        const message =
+          err?.error?.error ||
+          err?.message ||
+          'Errore sconosciuto';
+
+        return throwError(() => new Error(message));
+      })
+    );
+
   }
 
   private makeId(): string {
