@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { CartItem } from '../models/cart-item.model';
 import { CurrencyService } from './currency.service';
-import { Order } from '../models/order.model';
+import { Order, Stand } from '../models/order.model';
 import { HttpClient } from "@angular/common/http";
 import { map, catchError } from 'rxjs/operators';
 
@@ -21,7 +21,7 @@ export class OrderService {
     };
   }
 
-  confirm(items: CartItem[], sessionId: string): Observable<Order> {
+  confirm(items: CartItem[], sessionId: string, stand: Stand): Observable<Order> {
     if (!items?.length) {
       return throwError(() => new Error('Carrello vuoto'));
     }
@@ -33,7 +33,7 @@ export class OrderService {
       items: items.map(x => ({ ...x })),
       totalEur: totals.totalEur,
       totalWasho: totals.totalWasho,
-      status: 'CONFIRMED'
+      stand: stand
     };
     console.log(order)
     // Simula chiamata backend OK

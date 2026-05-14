@@ -1,0 +1,279 @@
+:host {
+  display: block;
+  height: 100vh;
+}
+
+/* IMPORTANTISSIMO: il splitter deve NON scrollare tutto */
+:host ::ng-deep .p-splitter {
+  height: 100vh;
+}
+
+:host ::ng-deep .p-splitter-panel {
+  overflow: visible;
+}
+
+
+.left-pane {
+  height: 100vh;
+  overflow-y: auto;
+}
+
+/* ================================
+   RIGHT PANEL = CARRELLO STICKY NATIVO
+================================== */
+
+.right-pane {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* il carrello NON deve scrollare con la pagina */
+.cart-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* contenuto carrello fisso */
+.cart-card .p-card-body {
+  overflow: visible;
+}
+
+/* footer (totali + bottoni) sempre visibili */
+.cart-card .totals,
+.cart-card .actions {
+  flex-shrink: 0;
+}
+
+
+
+
+
+/* GENERALE */
+.pane {
+  padding: 1rem;
+  height: 100%;
+  background: var(--surface-50);
+  box-sizing: border-box;
+}
+
+.pane-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* CARD TITLE */
+.card-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.card-title .subtitle {
+  font-size: 0.9rem;
+  color: var(--text-color-secondary);
+  font-weight: 400;
+}
+
+/* CONTROLLI FILTRO */
+.controls {
+  margin-bottom: 1rem;
+}
+
+/* PIATTI: CARD */
+.dish-card {
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+/* HEADER PIATTO */
+.dish-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dish-name {
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+
+/* BODY PIATTO */
+.dish-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* PREZZI */
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.price {
+  background: var(--surface-100);
+  padding: 0.75rem;
+  border-radius: 14px;
+  flex: 1 1 45%;
+  box-sizing: border-box;
+}
+
+.price .label {
+  font-size: 0.75rem;
+  color: var(--text-color-secondary);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.price .value {
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+/* RIGA AGGIUNGI AL CARRELLO */
+.add-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.qty-input {
+  min-width: 5rem; /* evita restringimento input */
+  flex: 1 1 auto;
+}
+
+/* DATA VIEW GRID */
+.col-12, .md\:col-6, .lg\:col-4 {
+  display: flex;
+  flex-direction: column;
+  min-width: 250px; /* evita colonne troppo strette */
+  flex: 1 1 calc(33.333% - 1rem);
+  box-sizing: border-box;
+  margin-bottom: 1rem; /* spazio tra le righe */
+}
+
+/* HEADER CATEGORIA */
+.category-header {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 4px;
+  color: orange;
+}
+
+/* CARRELLO */
+.cart-dish {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.cart-name {
+  font-weight: 800;
+}
+
+.money .muted,
+.muted {
+  color: var(--text-color-secondary);
+  font-size: 0.85rem;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  color: var(--text-color-secondary);
+}
+
+.totals {
+  display: grid;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.totals-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.total {
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  color: var(--text-color-secondary);
+}
+
+.loading .spinner {
+  width: 24px;
+  height: 24px;
+}
+
+/* SPLITTER PANEL CARD CONTENT */
+.p-splitter-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.print-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+
+.print-totals {
+  text-align: right;
+  font-size: 1.1rem;
+}
+
+.toolbar-icon {
+  width: 4.5rem;   /* dimensione simile a text-xl */
+  height: 3rem;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+.print-hidden {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  visibility: hidden;
+  height: auto;
+}

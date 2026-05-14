@@ -31,7 +31,7 @@ import { MessageService } from 'primeng/api';
 import { PrintService } from 'src/app/services/print.service';
 
 @Component({
-  selector: 'app-order-page',
+  selector: 'app-proloco-page',
   standalone: true,
   imports: [
     CommonModule,
@@ -54,40 +54,18 @@ import { PrintService } from 'src/app/services/print.service';
     WashoPipe
   ],
   providers: [MessageService],
-  templateUrl: './order-page.component.html',
-  styleUrl: './order-page.component.scss'
+  templateUrl: './proloco.component.html',
+  styleUrl: './proloco.component.scss'
 })
-export class OrderPageComponent {
+export class ProlocoComponent {
   private destroyRef = inject(DestroyRef);
 
   // Menu piatti (puoi sostituire con backend/API)
   dishes: Dish[] = [
-    { id: 'd1', name: 'Bruschette', priceEur: 3.00, category: 'BRUSCHETTE' },
-    { id: 'd2', name: 'Pane fritto dorato', priceEur: 3.00, category: 'BRUSCHETTE' },
-    
-    { id: 'd3', name: 'Pennette alla Gegè', priceEur: 9.00, category: 'PRIMI' },
-    { id: 'd4', name: 'Mezze maniche alla boscaiola', priceEur: 9.00, category: 'PRIMI' },
-
-    { id: 'd5', name: 'Pecora alla cottora', priceEur: 9.00, category: 'PANINI' },
-    { id: 'd6', name: 'Hamburger', priceEur: 9.00, category: 'PANINI' },
-    { id: 'd7', name: 'Hamburger Washo', priceEur: 12.00, category: 'PANINI' },
-
-    { id: 'd8', name: 'Arrosticini x3', priceEur: 3.00, category: 'ARROSTICINI' },
-    { id: 'd9', name: 'Porchetta', priceEur: 6.00, category: 'ARROSTICINI' },
-
     { id: 'd10', name: 'Fritti', priceEur: 3.00, category: 'PROLOCO' },
     { id: 'd11', name: 'Ranati', priceEur: 6.00, category: 'PROLOCO' },
     { id: 'd12', name: 'Fagioli e cotechino', priceEur: 6.00, category: 'PROLOCO' },
     { id: 'd13', name: 'Cheesecake', priceEur: 3.00, category: 'PROLOCO' },
-    
-    { id: 'd14', name: 'Birra 0.3', priceEur: 3.00, category: 'BEVANDE' },
-    { id: 'd15', name: 'Bottiglia vino', priceEur: 9.00, category: 'BEVANDE' },
-
-    { id: 'd16', name: 'Amaro', priceEur: 3.00, category: 'BAR' },
-    { id: 'd17', name: 'Bicchiere vino', priceEur: 3.00, category: 'BAR' },
-    { id: 'd18', name: 'Acqua 1/2', priceEur: 0.00, category: 'BAR' },
-    { id: 'd19', name: 'Caffè', priceEur: 0.00, category: 'BAR' },
-
   ];
 
   filter = signal('');
@@ -201,7 +179,7 @@ getCategories(): string[] {
 
   confirmOrder() {
     this.confirming.set(true);
-    this.orders.confirm(this.cartItems(), this.sessionId(), 'CASSA').subscribe({
+    this.orders.confirm(this.cartItems(), this.sessionId(), 'PROLOCO').subscribe({
       next: (order) => {
         this.confirming.set(false);
         this.confirmedOrder.set(order);
@@ -227,9 +205,12 @@ getCategories(): string[] {
     this.showReceiptDialog.set(false);
   }
 
-  printReceipt() {
+
+
+printReceipt() {
   const ord = this.confirmedOrder();
   if (!ord) return; // sicurezza: niente ordine, niente stampa
   this.printService.print(ord);
   }
+
 }
