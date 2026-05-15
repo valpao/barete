@@ -62,7 +62,7 @@ export class PrimiComponent {
 
   // Menu piatti (puoi sostituire con backend/API)
   dishes: Dish[] = [
-    { id: 'd3', name: 'Pennette alla Gegè', priceEur: 9.00, category: 'PRIMI' },
+    { id: 'd3', name: 'Pennette alla Gege', priceEur: 9.00, category: 'PRIMI' },
     { id: 'd4', name: 'Mezze maniche alla boscaiola', priceEur: 9.00, category: 'PRIMI' },
   ];
 

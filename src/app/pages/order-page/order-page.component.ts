@@ -65,7 +65,7 @@ export class OrderPageComponent {
     { id: 'd1', name: 'Bruschette', priceEur: 3.00, category: 'BRUSCHETTE' },
     { id: 'd2', name: 'Pane fritto dorato', priceEur: 3.00, category: 'BRUSCHETTE' },
     
-    { id: 'd3', name: 'Pennette alla Gegè', priceEur: 9.00, category: 'PRIMI' },
+    { id: 'd3', name: 'Pennette alla Gege', priceEur: 9.00, category: 'PRIMI' },
     { id: 'd4', name: 'Mezze maniche alla boscaiola', priceEur: 9.00, category: 'PRIMI' },
 
     { id: 'd5', name: 'Pecora alla cottora', priceEur: 9.00, category: 'PANINI' },

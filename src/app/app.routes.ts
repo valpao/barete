@@ -10,6 +10,7 @@ import { ArrosticiniComponent } from './pages/arrosticini/arrosticini.component'
 
 export const routes: Routes = [
   { path: '', component: OrderPageComponent },
+  /*
   { path: 'bruschette', component: BruschetteComponent },
   { path: 'bevande', component: BevandeComponent },
   { path: 'panini', component: PaniniComponent },
@@ -17,6 +18,6 @@ export const routes: Routes = [
   { path: 'proloco', component: ProlocoComponent },
   { path: 'bar', component: BarComponent },
   { path: 'arrosticini', component: ArrosticiniComponent },
-
+*/
   { path: '**', redirectTo: '' }
 ];
