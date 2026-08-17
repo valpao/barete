@@ -177,7 +177,7 @@ getCategories(): string[] {
 
   confirmOrder() {
     this.confirming.set(true);
-    this.orders.confirm(this.cartItems(), this.sessionId(), 'PROLOCO').subscribe({
+    this.orders.confirm(this.cartItems(), this.sessionId(), 'DOLCE').subscribe({
       next: (order) => {
         this.confirming.set(false);
         this.confirmedOrder.set(order);
@@ -189,6 +189,7 @@ getCategories(): string[] {
         this.messages.add({ severity: 'error', summary: 'Errore', detail: err?.message ?? 'Impossibile confermare' });
       }
     });
+  
   }
 
   resetAfterPrint() {

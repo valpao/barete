@@ -178,6 +178,7 @@ getCategories(): string[] {
   }
 
   confirmOrder() {
+    /*
     this.confirming.set(true);
     this.orders.confirm(this.cartItems(), this.sessionId(), 'BAR').subscribe({
       next: (order) => {
@@ -191,6 +192,7 @@ getCategories(): string[] {
         this.messages.add({ severity: 'error', summary: 'Errore', detail: err?.message ?? 'Impossibile confermare' });
       }
     });
+    */
   }
 
   resetAfterPrint() {

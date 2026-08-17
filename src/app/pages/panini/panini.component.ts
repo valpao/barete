@@ -179,7 +179,7 @@ getCategories(): string[] {
 
   confirmOrder() {
     this.confirming.set(true);
-    this.orders.confirm(this.cartItems(), this.sessionId(), 'PANINI').subscribe({
+    this.orders.confirm(this.cartItems(), this.sessionId(), 'SECONDI').subscribe({
       next: (order) => {
         this.confirming.set(false);
         this.confirmedOrder.set(order);

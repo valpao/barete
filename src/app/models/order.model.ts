@@ -1,14 +1,13 @@
 import { CartItem } from './cart-item.model';
 
 export type Stand =
-| 'CASSA'
-| 'BRUSCHETTE'
-| 'BEVANDE'
-| 'PANINI'
-| 'PRIMI'
-| 'PROLOCO'
-| 'ARROSTICINI'
-| 'BAR';
+  |'CASSA'
+  |'PRIMI'
+  |'SECONDI'
+  |'ARROSTICINI'
+  |'FRITTI'
+  |'DOLCE'
+  |'BEVANDE'
 
 export interface Order {
   id: string;
@@ -21,11 +20,10 @@ export interface Order {
 
 export const CatStand = [
   'CASSA',
-  'BRUSCHETTE',
-  'BEVANDE',
-  'PANINI',
   'PRIMI',
-  'PROLOCO',
+  'SECONDI',
   'ARROSTICINI',
-  'BAR'
+  'FRITTI',
+  'DOLCE',
+  'BEVANDE',
 ] as const;
