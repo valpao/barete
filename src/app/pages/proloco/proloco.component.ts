@@ -62,10 +62,8 @@ export class ProlocoComponent {
 
   // Menu piatti (puoi sostituire con backend/API)
   dishes: Dish[] = [
-    { id: 'd10', name: 'Fritti', priceEur: 3.00, category: 'PROLOCO' },
-    { id: 'd11', name: 'Ranati', priceEur: 6.00, category: 'PROLOCO' },
-    { id: 'd12', name: 'Fagioli e cotechino', priceEur: 6.00, category: 'PROLOCO' },
-    { id: 'd13', name: 'Cheesecake', priceEur: 3.00, category: 'PROLOCO' },
+    { id: 'd17', name: 'Cheesecake', priceEur: 2.00, category: 'DOLCE' },
+    { id: 'd18', name: 'Pane e nutella', priceEur: 2.00, category: 'DOLCE' }
   ];
 
   filter = signal('');

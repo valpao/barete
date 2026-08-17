@@ -62,9 +62,10 @@ export class PaniniComponent {
 
   // Menu piatti (puoi sostituire con backend/API)
   dishes: Dish[] = [
-    { id: 'd5', name: 'Pecora alla cottora', priceEur: 9.00, category: 'PANINI' },
-    { id: 'd6', name: 'Hamburger', priceEur: 9.00, category: 'PANINI' },
-    { id: 'd7', name: 'Hamburger Washo', priceEur: 12.00, category: 'PANINI' },
+    { id: 'd4', name: 'Hamburger di pecora', priceEur: 8.00, category: 'SECONDI' },
+    { id: 'd5', name: 'Hamburger di manzo', priceEur: 8.00, category: 'SECONDI' },
+    { id: 'd6', name: 'Hamburger Washo', priceEur: 10.00, category: 'SECONDI' },
+    { id: 'd7', name: 'Panino con porchetta', priceEur: 6.00, category: 'SECONDI' }
   ];
 
   filter = signal('');

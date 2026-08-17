@@ -62,8 +62,11 @@ export class BevandeComponent {
 
   // Menu piatti (puoi sostituire con backend/API)
   dishes: Dish[] = [
-    { id: 'd14', name: 'Birra 0.3', priceEur: 3.00, category: 'BEVANDE' },
-    { id: 'd15', name: 'Bottiglia vino', priceEur: 9.00, category: 'BEVANDE' },
+    { id: 'd19', name: 'Birra 0.4', priceEur: 4.00, category: 'BEVANDE' },
+    { id: 'd20', name: 'Vino', priceEur: 2.00, category: 'BEVANDE' },
+    { id: 'd21', name: 'Bottiglia vino', priceEur: 10.00, category: 'BEVANDE' },
+    { id: 'd22', name: 'Amari', priceEur: 2.00, category: 'BEVANDE' },
+    { id: 'd23', name: 'Cocktail', priceEur: 6.00, category: 'BEVANDE' },
   ];
 
   filter = signal('');

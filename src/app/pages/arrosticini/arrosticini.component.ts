@@ -62,8 +62,8 @@ export class ArrosticiniComponent {
 
   // Menu piatti (puoi sostituire con backend/API)
   dishes: Dish[] = [
-    { id: 'd8', name: 'Arrosticini x3', priceEur: 3.00, category: 'ARROSTICINI' },
-    { id: 'd9', name: 'Porchetta', priceEur: 6.00, category: 'ARROSTICINI' }
+    { id: 'd8', name: 'Arrosticini x5', priceEur: 6.00, category: 'ARROSTICINI' },
+    { id: 'd9', name: 'Arrosticini x10', priceEur: 10.00, category: 'ARROSTICINI' }
   ];
 
   filter = signal('');

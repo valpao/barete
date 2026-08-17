@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class CurrencyService {
   /** 1 WASHO = 3 EUR */
-  readonly EUR_PER_WASHO = 3;
+  readonly EUR_PER_WASHO = 2;
 
   eurToWasho(eur: number): number {
     if (!eur) return 0;

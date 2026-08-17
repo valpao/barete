@@ -62,8 +62,13 @@ export class BruschetteComponent {
 
   // Menu piatti (puoi sostituire con backend/API)
   dishes: Dish[] = [
-    { id: 'd1', name: 'Bruschette', priceEur: 3.00, category: 'BRUSCHETTE' },
-    { id: 'd2', name: 'Pane fritto dorato', priceEur: 3.00, category: 'BRUSCHETTE' },
+    { id: 'd10', name: 'Pizza fritta', priceEur: 4.00, category: 'FRITTI' },
+    { id: 'd11', name: 'Pizza fritta farcita', priceEur: 6.00, category: 'FRITTI' },
+    { id: 'd12', name: 'Olive ascolane', priceEur: 4.00, category: 'FRITTI' },
+    { id: 'd13', name: 'Patatine fritte', priceEur: 2.00, category: 'FRITTI' },
+    { id: 'd14', name: 'Alette pollo', priceEur: 4.00, category: 'FRITTI' },
+    { id: 'd15', name: 'Nuggets', priceEur: 4.00, category: 'FRITTI' },
+    { id: 'd16', name: 'Jalapeno', priceEur: 2.00, category: 'FRITTI' }
   ];
 
   filter = signal('');
