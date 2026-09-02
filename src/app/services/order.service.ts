@@ -8,7 +8,7 @@ import { map, catchError } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class OrderService {
-  private readonly apiUrl = 'https://www.valeriopaolelli.it/washo/cena/script/save_order.php';
+  private readonly apiUrl = 'https://www.valeriopaolelli.it/washo/script/save_order.php';
 
   constructor(private currency: CurrencyService, private readonly http: HttpClient) {}
 

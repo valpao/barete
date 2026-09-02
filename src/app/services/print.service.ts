@@ -1,10 +1,15 @@
 // receipt.service.ts
 import { Injectable } from '@angular/core';
 import { Order } from '../models/order.model';
-
+import { CurrencyService } from './currency.service';
 
 @Injectable({ providedIn: 'root' })
 export class PrintService {
+
+   constructor(
+    private currencyService: CurrencyService
+  ) {}
+
 
 print(order: Order) {
 
@@ -220,7 +225,7 @@ private formatReceiptsByCategory(order: Order): string {
 
   lines.push('------------------------');
 
-    lines.push('QTA DESCR.         EUR');
+    lines.push('QTA DESCR.       WASHO');
 
   // Stampa le categorie
   Object.entries(groupedItems)
@@ -237,15 +242,29 @@ private formatReceiptsByCategory(order: Order): string {
           .toString()
           .padEnd(3, ' ');
 
+          /*
         const name = item.dish.name
           .substring(0, 12)
           .padEnd(12, ' ');
-
+*/
+        const name = this.formatDishName(item.dish.name);
+/*
         const itemTotal = item.dish.priceEur * item.qty;
 
         const price = itemTotal
           .toFixed(2)
           .padStart(7, ' ');
+*/
+
+      const itemTotalEur = item.dish.priceEur * item.qty;
+
+      const itemTotalWasho = this.currencyService.round2(
+        this.currencyService.eurToWasho(itemTotalEur)
+      );
+
+      const price = itemTotalWasho
+        .toFixed(2)
+        .padStart(7, ' ');
 
         lines.push(`${qty}${name}${price}`);
       });
@@ -258,11 +277,11 @@ private formatReceiptsByCategory(order: Order): string {
   lines.push('------------------------');
 
   lines.push(
-    `TOT Washo:${order.totalWasho.toFixed(2).padStart(11, ' ')}`
+    `TOT Washo:${order.totalWasho.toFixed(2).padStart(9, ' ')}`
   );
 
   lines.push(
-    `TOT EUR:&nbsp;&nbsp;${order.totalEur.toFixed(2).padStart(11, ' ')}`
+    `TOT EUR:${order.totalEur.toFixed(2).padStart(11, ' ')}`
   );
 
   lines.push('========================');
@@ -278,5 +297,143 @@ private formatReceiptsByCategory(order: Order): string {
       <pre>${lines.join('\n')}</pre>
     </div>
   `;
+}
+
+
+private formatDishName(name: string, maxLength = 12): string {
+
+  const words = name
+    .trim()
+    .split(/\s+/);
+
+  if (!words.length) {
+    return ''.padEnd(maxLength, ' ');
+  }
+
+  // Parole che normalmente non aggiungono
+  // informazione significativa alla descrizione.
+  const ignoredWords = new Set([
+    'di',
+    'del',
+    'della',
+    'dei',
+    'degli',
+    'delle',
+    'da',
+    'a',
+    'al',
+    'alla',
+    'alle',
+    'ai',
+    'agli',
+    'con',
+    'e'
+  ]);
+
+  // Abbreviazione intelligente di una singola parola.
+  const abbreviate = (word: string, length: number): string => {
+
+    if (word.length <= length) {
+      return word;
+    }
+
+    if (length <= 1) {
+      return word.substring(0, length);
+    }
+
+    return word.substring(0, length - 1) + '.';
+  };
+
+
+  // Se il nome ci sta già, non tocchiamo nulla.
+  if (name.length <= maxLength) {
+    return name.padEnd(maxLength, ' ');
+  }
+
+
+  const significantWords = words.filter(
+    word => !ignoredWords.has(word.toLowerCase())
+  );
+
+
+  /*
+   * Strategia:
+   *
+   * - prima parola: identifica il prodotto
+   * - ultima parola: spesso identifica la variante
+   *
+   * Esempio:
+   * Hamburger di pecora
+   * → Hamburger + pecora
+   *
+   * Pane fritto dorato farcito
+   * → Pane + farcito
+   */
+
+
+  if (significantWords.length >= 2) {
+
+    const first = significantWords[0];
+    const last = significantWords[significantWords.length - 1];
+
+
+    // Caso ideale: prima parola + ultima parola
+    let firstLength = Math.min(first.length, 5);
+    let lastLength = Math.min(last.length, 5);
+
+    while (firstLength + 1 + lastLength > maxLength) {
+
+      // Riduciamo prima la prima parola
+      if (firstLength > 3) {
+        firstLength--;
+      }
+      else if (lastLength > 3) {
+        lastLength--;
+      }
+      else {
+        break;
+      }
+    }
+
+
+    let result =
+      `${abbreviate(first, firstLength)} ${abbreviate(last, lastLength)}`;
+
+
+    if (result.length <= maxLength) {
+      return result.padEnd(maxLength, ' ');
+    }
+  }
+
+
+  /*
+   * Seconda strategia:
+   * prova a costruire la descrizione utilizzando
+   * tutte le parole significative.
+   */
+
+  const abbreviated = significantWords.map(word =>
+    abbreviate(word, 4)
+  );
+
+  let result = abbreviated[0] ?? '';
+
+
+  for (let i = 1; i < abbreviated.length; i++) {
+
+    const candidate = `${result} ${abbreviated[i]}`;
+
+    if (candidate.length <= maxLength) {
+      result = candidate;
+    }
+  }
+
+
+  if (result.length > maxLength) {
+    result = result.substring(0, maxLength);
+  }
+
+
+  return result.padEnd(maxLength, ' ');
 }
 }
