@@ -2,6 +2,7 @@ import { CartItem } from './cart-item.model';
 
 export type Stand =
   |'CASSA'
+  | 'ANTIPASTI'
   |'PRIMI'
   |'SECONDI'
   |'ARROSTICINI'
@@ -20,6 +21,7 @@ export interface Order {
 
 export const CatStand = [
   'CASSA',
+  'ANTIPASTI',
   'PRIMI',
   'SECONDI',
   'ARROSTICINI',

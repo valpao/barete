@@ -62,34 +62,47 @@ export class OrderPageComponent {
 
   // Menu piatti (puoi sostituire con backend/API)
   dishes: Dish[] = [
-    { id: 'd1', name: 'Trippa', priceEur: 8.00, category: 'PRIMI' },
-    { id: 'd2', name: 'Mezze maniche washo', priceEur: 8.00, category: 'PRIMI' },
-    { id: 'd3', name: 'Mezze maniche amatriciana', priceEur: 8.00, category: 'PRIMI' },
+
+    { id: 'd1', name: 'Bruschette', priceEur: 2.00, category: 'ANTIPASTI' },
+    { id: 'd2', name: 'Pane fritto dorato', priceEur: 2.00, category: 'ANTIPASTI' },
+    { id: 'd3', name: 'Pane fritto dorato farcito', priceEur: 4.00, category: 'ANTIPASTI' },
+    { id: 'd4', name: 'Pannocchia griglia', priceEur: 2.00, category: 'ANTIPASTI' },
+
+    { id: 'd34', name: 'Penne arrabiata', priceEur: 8.00, category: 'PRIMI' },
+    { id: 'd5', name: 'Ranati', priceEur: 8.00, category: 'PRIMI' },
+    { id: 'd6', name: 'Mezze maniche washo', priceEur: 8.00, category: 'PRIMI' },
+    { id: 'd7', name: 'Mezze maniche amatriciana', priceEur: 8.00, category: 'PRIMI' },
+    { id: 'd8', name: 'Trippa', priceEur: 6.00, category: 'PRIMI' },
     
-    { id: 'd4', name: 'Hamburger di pecora', priceEur: 8.00, category: 'SECONDI' },
-    { id: 'd5', name: 'Hamburger di manzo', priceEur: 8.00, category: 'SECONDI' },
-    { id: 'd6', name: 'Hamburger Washo', priceEur: 10.00, category: 'SECONDI' },
-    { id: 'd7', name: 'Panino con porchetta', priceEur: 6.00, category: 'SECONDI' },
+    { id: 'd9', name: 'Hamburger di pecora', priceEur: 8.00, category: 'SECONDI' },
+    { id: 'd10', name: 'Hamburger di manzo', priceEur: 8.00, category: 'SECONDI' },
+    { id: 'd11', name: 'Hamburger Washo', priceEur: 10.00, category: 'SECONDI' },
+    { id: 'd12', name: 'Pecora alla cottora', priceEur: 10.00, category: 'SECONDI' },
+    { id: 'd13', name: 'Panino porchetta', priceEur: 6.00, category: 'SECONDI' },
+    { id: 'd14', name: 'Salsiccia e fagioli', priceEur: 8.00, category: 'SECONDI' },
+    { id: 'd15', name: 'Chili con carne', priceEur: 8.00, category: 'SECONDI' },
 
-    { id: 'd8', name: 'Arrosticini x5', priceEur: 6.00, category: 'ARROSTICINI' },
-    { id: 'd9', name: 'Arrosticini x10', priceEur: 10.00, category: 'ARROSTICINI' },
+    { id: 'd16', name: 'Arrosticini x5', priceEur: 6.00, category: 'ARROSTICINI' },
+    { id: 'd17', name: 'Arrosticini x10', priceEur: 10.00, category: 'ARROSTICINI' },
 
-   { id: 'd10', name: 'Pizza fritta', priceEur: 4.00, category: 'FRITTI' },
-    { id: 'd11', name: 'Pizza fritta farcita', priceEur: 6.00, category: 'FRITTI' },
-    { id: 'd12', name: 'Olive ascolane', priceEur: 4.00, category: 'FRITTI' },
-    { id: 'd13', name: 'Patatine fritte', priceEur: 2.00, category: 'FRITTI' },
-    { id: 'd14', name: 'Alette pollo', priceEur: 4.00, category: 'FRITTI' },
-    { id: 'd15', name: 'Nuggets', priceEur: 4.00, category: 'FRITTI' },
-    { id: 'd16', name: 'Jalapeno', priceEur: 2.00, category: 'FRITTI' },
+    { id: 'd18', name: 'Pizza fritta', priceEur: 2.00, category: 'FRITTI' },
+    { id: 'd19', name: 'Pizza fritta farcita', priceEur: 4.00, category: 'FRITTI' },
+    { id: 'd20', name: 'Olive ascolane', priceEur: 4.00, category: 'FRITTI' },
+    { id: 'd21', name: 'Patatine fritte', priceEur: 2.00, category: 'FRITTI' },
+    { id: 'd22', name: 'Alette pollo', priceEur: 4.00, category: 'FRITTI' },
+    { id: 'd23', name: 'Nuggets', priceEur: 4.00, category: 'FRITTI' },
+    { id: 'd24', name: 'Jalapeno', priceEur: 2.00, category: 'FRITTI' },
 
-    { id: 'd17', name: 'Cheesecake', priceEur: 2.00, category: 'DOLCE' },
-    { id: 'd18', name: 'Pane e nutella', priceEur: 2.00, category: 'DOLCE' },
+    { id: 'd25', name: 'Cheesecake', priceEur: 2.00, category: 'DOLCE' },
+    { id: 'd26', name: 'Pane e nutella', priceEur: 2.00, category: 'DOLCE' },
     
-    { id: 'd19', name: 'Birra 0.4', priceEur: 4.00, category: 'BEVANDE' },
-    { id: 'd20', name: 'Vino', priceEur: 2.00, category: 'BEVANDE' },
-    { id: 'd21', name: 'Bottiglia vino', priceEur: 10.00, category: 'BEVANDE' },
-    { id: 'd22', name: 'Amari', priceEur: 2.00, category: 'BEVANDE' },
-    { id: 'd23', name: 'Cocktail', priceEur: 6.00, category: 'BEVANDE' },
+    { id: 'd27', name: 'Birra 0.4', priceEur: 4.00, category: 'BEVANDE' },
+    { id: 'd28', name: 'Vino', priceEur: 2.00, category: 'BEVANDE' },
+    { id: 'd29', name: 'Bottiglia vino', priceEur: 10.00, category: 'BEVANDE' },
+    { id: 'd30', name: 'Amari', priceEur: 2.00, category: 'BEVANDE' },
+    { id: 'd31', name: 'Cocktail', priceEur: 6.00, category: 'BEVANDE' },
+    { id: 'd32', name: 'Caffè', priceEur: 0.00, category: 'BEVANDE' },
+    { id: 'd33', name: 'Whisky', priceEur: 4.00, category: 'BEVANDE' },
 
   ];
 

@@ -45,14 +45,10 @@ print(order: Order) {
 
             .receipt {
               width: 50mm;
-              page-break-after: always;
               white-space: pre-wrap;
               overflow: hidden;
             }
 
-            .receipt:last-child {
-              page-break-after: auto;
-            }
 
             pre {
               margin: 0;
@@ -85,7 +81,7 @@ print(order: Order) {
 
 
 
-private formatReceiptsByCategory(order: Order): string {
+private formatReceiptsByCategory_OLD(order: Order): string {
 
   // Raggruppa per categoria
   const groupedItems = order.items.reduce((acc, item) => {
@@ -180,5 +176,107 @@ private formatReceiptsByCategory(order: Order): string {
 
     })
     .join('');
+}
+
+private formatReceiptsByCategory(order: Order): string {
+
+  // Raggruppa per categoria
+  const groupedItems = order.items.reduce((acc, item) => {
+
+    const category = item.dish.category;
+
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+
+    acc[category].push(item);
+
+    return acc;
+
+  }, {} as Record<string, typeof order.items>);
+
+
+  const lines: string[] = [];
+
+  const date = new Date(order.createdAt)
+    .toLocaleString('it-IT');
+
+
+  // Intestazione unica
+  lines.push('========================');
+  lines.push('        ORDINE');
+  lines.push('========================');
+
+
+  // ID ordine
+  const formatId = (id: string, chunk = 18) =>
+    id.match(new RegExp(`.{1,${chunk}}`, 'g')) || [];
+
+  formatId(order.id, 18).forEach(part => {
+    lines.push(part);
+  });
+
+  lines.push(date);
+
+  lines.push('------------------------');
+
+    lines.push('QTA DESCR.         EUR');
+
+  // Stampa le categorie
+  Object.entries(groupedItems)
+    .forEach(([category, items]) => {
+
+      lines.push('');
+      lines.push(`   ${category}`);
+      lines.push('------------------------');
+
+
+      items.forEach(item => {
+
+        const qty = item.qty
+          .toString()
+          .padEnd(3, ' ');
+
+        const name = item.dish.name
+          .substring(0, 12)
+          .padEnd(12, ' ');
+
+        const itemTotal = item.dish.priceEur * item.qty;
+
+        const price = itemTotal
+          .toFixed(2)
+          .padStart(7, ' ');
+
+        lines.push(`${qty}${name}${price}`);
+      });
+
+    });
+
+
+  // Totale unico preso dall'ordine
+  lines.push('');
+  lines.push('------------------------');
+
+  lines.push(
+    `TOT Washo:${order.totalWasho.toFixed(2).padStart(11, ' ')}`
+  );
+
+  lines.push(
+    `TOT EUR:&nbsp;&nbsp;${order.totalEur.toFixed(2).padStart(11, ' ')}`
+  );
+
+  lines.push('========================');
+
+  lines.push(' GRAZIE PER L ORDINE');
+
+  lines.push('========================');
+
+
+  // Un solo scontrino
+  return `
+    <div class="receipt">
+      <pre>${lines.join('\n')}</pre>
+    </div>
+  `;
 }
 }
