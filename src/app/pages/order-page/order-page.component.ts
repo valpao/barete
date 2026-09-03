@@ -235,6 +235,7 @@ getCategories(): string[] {
     this.showReceiptDialog.set(false);
     this.sessionId.set('');
     this.clearCart();
+    window.location.reload();
   }
 
   modificaOrdine(){
