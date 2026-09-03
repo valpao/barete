@@ -7,6 +7,6 @@ export class WashoPipe implements PipeTransform {
 
   transform(eur: number): string {
     const w = this.currency.round2(this.currency.eurToWasho(eur));
-    return `${w.toFixed(2)} W`;
+    return `${w.toFixed(0)} W`;
   }
 }

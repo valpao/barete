@@ -225,7 +225,7 @@ private formatReceiptsByCategory(order: Order): string {
 
   lines.push('------------------------');
 
-    lines.push('QTA DESCR.       WASHO');
+    lines.push('QTA DESCR.         WASHO');
 
   // Stampa le categorie
   Object.entries(groupedItems)
@@ -263,7 +263,7 @@ private formatReceiptsByCategory(order: Order): string {
       );
 
       const price = itemTotalWasho
-        .toFixed(2)
+        .toFixed(0)
         .padStart(7, ' ');
 
         lines.push(`${qty}${name}${price}`);
@@ -277,11 +277,11 @@ private formatReceiptsByCategory(order: Order): string {
   lines.push('------------------------');
 
   lines.push(
-    `TOT Washo:${order.totalWasho.toFixed(2).padStart(9, ' ')}`
+    `TOT Washo:${order.totalWasho.toFixed(2).padStart(12, ' ')}`
   );
 
   lines.push(
-    `TOT EUR:${order.totalEur.toFixed(2).padStart(11, ' ')}`
+    `TOT EUR:${order.totalEur.toFixed(2).padStart(14, ' ')}`
   );
 
   lines.push('========================');
