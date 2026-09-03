@@ -59,7 +59,7 @@ export class OrderService {
 
   }
 
-  private makeId(): string {
+  private makeId_OLD(): string {
   // timestamp in base36 (compatto e ordinabile)
   const ts = Date.now().toString(36).toUpperCase();
 
@@ -73,6 +73,21 @@ export class OrderService {
     .toUpperCase();
 
   return `ORD-${ts}-${rnd}`;
+}
+
+private makeId(): string {
+  const timestamp = Date.now().toString(36).toUpperCase().padStart(8, '0');
+
+  const array = new Uint8Array(7); // 56 bit
+  crypto.getRandomValues(array);
+
+  const random = Array.from(array)
+    .map(b => b.toString(36).padStart(2, '0'))
+    .join('')
+    .toUpperCase()
+    .substring(0, 11);
+
+  return `ORD-${timestamp}-${random}`;
 }
 
 }

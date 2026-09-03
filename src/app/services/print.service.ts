@@ -214,12 +214,16 @@ private formatReceiptsByCategory(order: Order): string {
 
 
   // ID ordine
+  /*
   const formatId = (id: string, chunk = 18) =>
     id.match(new RegExp(`.{1,${chunk}}`, 'g')) || [];
 
   formatId(order.id, 18).forEach(part => {
     lines.push(part);
   });
+ */
+
+  lines.push(order.id);
 
   lines.push(date);
 
@@ -264,7 +268,7 @@ private formatReceiptsByCategory(order: Order): string {
 
       const price = itemTotalWasho
         .toFixed(0)
-        .padStart(7, ' ');
+        .padStart(6, ' ');
 
         lines.push(`${qty}${name}${price}`);
       });
@@ -277,11 +281,11 @@ private formatReceiptsByCategory(order: Order): string {
   lines.push('------------------------');
 
   lines.push(
-    `TOT Washo:${order.totalWasho.toFixed(2).padStart(12, ' ')}`
+    `TOT Washo:${order.totalWasho.toFixed(0).padStart(14, ' ')}`
   );
 
   lines.push(
-    `TOT EUR:${order.totalEur.toFixed(2).padStart(14, ' ')}`
+    `TOT EUR:${order.totalEur.toFixed(2).padStart(16, ' ')}`
   );
 
   lines.push('========================');
@@ -300,18 +304,20 @@ private formatReceiptsByCategory(order: Order): string {
 }
 
 
-private formatDishName(name: string, maxLength = 12): string {
+
+private formatDishName(name: string, maxLength = 15): string {
 
   const words = name
     .trim()
-    .split(/\s+/);
+    .split(/\s+/)
+    .filter(Boolean);
 
   if (!words.length) {
     return ''.padEnd(maxLength, ' ');
   }
 
-  // Parole che normalmente non aggiungono
-  // informazione significativa alla descrizione.
+  // Parole che normalmente aggiungono poca informazione
+  // e che possiamo eliminare quando lo spazio è limitato.
   const ignoredWords = new Set([
     'di',
     'del',
@@ -327,10 +333,30 @@ private formatDishName(name: string, maxLength = 12): string {
     'ai',
     'agli',
     'con',
-    'e'
+    'e',
+    'in',
+    'per'
   ]);
 
-  // Abbreviazione intelligente di una singola parola.
+  const significantWords = words.filter(
+    word => !ignoredWords.has(word.toLowerCase())
+  );
+
+  // Se il nome entra già nello spazio disponibile,
+  // non lo modifichiamo.
+  if (name.length <= maxLength) {
+    return name.padEnd(maxLength, ' ');
+  }
+
+  /*
+   * Abbrevia una parola mantenendo il massimo
+   * delle informazioni possibili.
+   *
+   * Esempi:
+   * Hamburger -> Hamburge.
+   * fritto    -> fritt.
+   * farcito   -> farcit.
+   */
   const abbreviate = (word: string, length: number): string => {
 
     if (word.length <= length) {
@@ -344,50 +370,40 @@ private formatDishName(name: string, maxLength = 12): string {
     return word.substring(0, length - 1) + '.';
   };
 
-
-  // Se il nome ci sta già, non tocchiamo nulla.
-  if (name.length <= maxLength) {
-    return name.padEnd(maxLength, ' ');
-  }
-
-
-  const significantWords = words.filter(
-    word => !ignoredWords.has(word.toLowerCase())
-  );
-
-
   /*
-   * Strategia:
+   * Costruisce una descrizione composta da due parole,
+   * cercando di dare più spazio possibile alla prima
+   * e alla seconda.
    *
-   * - prima parola: identifica il prodotto
-   * - ultima parola: spesso identifica la variante
+   * Esempi:
    *
-   * Esempio:
    * Hamburger di pecora
-   * → Hamburger + pecora
+   * -> Hambur. pecora
    *
-   * Pane fritto dorato farcito
-   * → Pane + farcito
+   * Hamburger di manzo
+   * -> Hambur. manzo
+   *
+   * Questo mantiene distinguibile la variante.
    */
-
-
   if (significantWords.length >= 2) {
 
     const first = significantWords[0];
     const last = significantWords[significantWords.length - 1];
 
+    // Partiamo dando una buona quantità di spazio
+    // alla prima parola e alla variante finale.
+    let firstLength = Math.min(first.length, 8);
+    let lastLength = Math.min(last.length, 8);
 
-    // Caso ideale: prima parola + ultima parola
-    let firstLength = Math.min(first.length, 5);
-    let lastLength = Math.min(last.length, 5);
-
+    // Riduciamo fino a rientrare nei 15 caratteri.
     while (firstLength + 1 + lastLength > maxLength) {
 
-      // Riduciamo prima la prima parola
-      if (firstLength > 3) {
+      // Cerchiamo di preservare la parola finale,
+      // che spesso identifica la variante del piatto.
+      if (firstLength > 5) {
         firstLength--;
       }
-      else if (lastLength > 3) {
+      else if (lastLength > 5) {
         lastLength--;
       }
       else {
@@ -395,45 +411,75 @@ private formatDishName(name: string, maxLength = 12): string {
       }
     }
 
-
-    let result =
+    const result =
       `${abbreviate(first, firstLength)} ${abbreviate(last, lastLength)}`;
-
 
     if (result.length <= maxLength) {
       return result.padEnd(maxLength, ' ');
     }
   }
 
-
   /*
-   * Seconda strategia:
-   * prova a costruire la descrizione utilizzando
-   * tutte le parole significative.
+   * Se ci sono più parole significative,
+   * cerchiamo di utilizzare più parole possibili
+   * anziché limitarci solamente alla prima e all'ultima.
+   *
+   * Esempio:
+   *
+   * Pane fritto dorato farcito
+   * -> Pane frit. dorato
    */
 
-  const abbreviated = significantWords.map(word =>
-    abbreviate(word, 4)
-  );
+  let result = '';
 
-  let result = abbreviated[0] ?? '';
+  for (const word of significantWords) {
 
-
-  for (let i = 1; i < abbreviated.length; i++) {
-
-    const candidate = `${result} ${abbreviated[i]}`;
+    // Prima proviamo a inserire la parola completa.
+    const candidate = result
+      ? `${result} ${word}`
+      : word;
 
     if (candidate.length <= maxLength) {
       result = candidate;
+      continue;
     }
+
+    /*
+     * Se non entra completa, proviamo ad abbreviare
+     * la parola in modo da sfruttare lo spazio restante.
+     */
+    const remaining = maxLength - result.length - (result ? 1 : 0);
+
+    if (remaining >= 4) {
+
+      const abbreviatedWord = abbreviate(word, remaining);
+
+      const candidateAbbreviated = result
+        ? `${result} ${abbreviatedWord}`
+        : abbreviatedWord;
+
+      if (candidateAbbreviated.length <= maxLength) {
+        result = candidateAbbreviated;
+      }
+    }
+
+    break;
   }
 
-
-  if (result.length > maxLength) {
-    result = result.substring(0, maxLength);
+  /*
+   * Ultimo fallback:
+   * se per qualche motivo il risultato non è ancora
+   * abbastanza informativo, manteniamo almeno la prima
+   * parola significativa.
+   */
+  if (!result) {
+    result = abbreviate(significantWords[0] ?? words[0], maxLength);
   }
 
-
-  return result.padEnd(maxLength, ' ');
+  return result
+    .substring(0, maxLength)
+    .padEnd(maxLength, ' ');
 }
+
+
 }
